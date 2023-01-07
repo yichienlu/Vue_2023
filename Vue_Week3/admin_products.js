@@ -13,15 +13,24 @@ const app = createApp({
     return {
       products:[],
       tempProduct:{
-        imagesUrl:[]
+        imagesUrl:['']
       }
     }
   },
   methods: {
+    checkAdmin(){
+      axios.post(`${api_url}/api/user/check`)
+      .then((res)=>{
+        this.getAdminProducts();
+      })
+      .catch((err)=>{
+        console.dir(err)
+      })
+    },
     getAdminProducts(){
       axios.get(`${api_url}/api/${api_path}/admin/products/all`)
       .then((res)=>{
-        console.log(res.data)
+        // console.log(res.data)
         this.products = res.data.products
       })
     },
@@ -38,7 +47,7 @@ const app = createApp({
     editProduct(id){
       axios.put(`${api_url}/api/${api_path}/admin/product/${id}`,{"data":this.tempProduct})
       .then((res)=>{
-        console.log(res.data)
+        // console.log(res.data)
         this.getAdminProducts()
       })
       .catch((err)=>{
@@ -59,7 +68,7 @@ const app = createApp({
     }
   },
   mounted(){
-    this.getAdminProducts()
+    this.checkAdmin()
   }
 })
 app.mount("#app")
