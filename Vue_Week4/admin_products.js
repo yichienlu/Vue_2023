@@ -40,7 +40,7 @@ const app = createApp({
     addProduct(){
       axios.post(`${api_url}/api/${api_path}/admin/product`, {"data":this.tempProduct})
       .then((res)=>{
-        console.log(res.data)
+        // console.log(res.data)
         this.getAdminProducts()
       })
       .catch((err)=>{
@@ -60,7 +60,7 @@ const app = createApp({
     deleteProduct(id){
       axios.delete(`${api_url}/api/${api_path}/admin/product/${id}`)
       .then((res)=>{
-        console.log(res.data)
+        // console.log(res.data)
         this.getAdminProducts()
       })
       .catch((err)=>{
@@ -76,5 +76,13 @@ const app = createApp({
   mounted(){
     this.checkAdmin()
   }
+})
+app.component('product-modal', {
+  props:['tempProduct','editProduct','addProduct'],
+  template:'#product-modal-template',
+})
+app.component('del-product-modal', {
+  props:['tempProduct','deleteProduct'],
+  template: '#del-product-modal-template'
 })
 app.mount("#app")
