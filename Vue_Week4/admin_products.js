@@ -67,12 +67,30 @@ const app = createApp({
         console.dir(err)
       })
     },
-    uploadPicture(){
+    uploadImage(){
+      const imageUrl = document.querySelector('#imageUrl')
+      const file = imageUrl.files[0]
+      const formData = new FormData();
+      formData.append('file-to-upload', file)
+
+      axios.post(`${api_url}/api/${api_path}/admin/upload`, formData)
+      .then((res)=>{
+        console.log(res)
+        this.tempProduct.imageUrl = res.data.imageUrl
+      })
+      .catch((err)=>{
+        console.log(err.response)
+      })
     }
   },
   components:{
     pagination
   },
+  // watch: {
+  //   tempProduct(newVal, oldVal){
+  //       console.log(oldVal, newVal)
+  //   }
+  // },
   mounted(){
     this.checkAdmin()
   }
