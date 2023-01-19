@@ -3,11 +3,8 @@ import pagination from './pagination.js'
 
 const api_url = "https://vue3-course-api.hexschool.io/v2";
 const api_path = "yclu";
-const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
-axios.defaults.headers.common.Authorization = token;
-const config = {
-  headers: { Authorization: token },
-};
+
+let productModal = null;
 
 const app = createApp({
   data(){
@@ -21,12 +18,15 @@ const app = createApp({
   },
   methods: {
     checkAdmin(){
+
       axios.post(`${api_url}/api/user/check`)
       .then((res)=>{
         this.getAdminProducts();
       })
       .catch((err)=>{
-        console.dir(err)
+        // console.dir(err.data.message)
+        alert(err.data.message)
+        window.location = 'index.html'
       })
     },
     getAdminProducts(page = 1){
@@ -41,7 +41,10 @@ const app = createApp({
       axios.post(`${api_url}/api/${api_path}/admin/product`, {"data":this.tempProduct})
       .then((res)=>{
         // console.log(res.data)
+        productModal.hide();
+        alert(res.data.message);
         this.getAdminProducts()
+        
       })
       .catch((err)=>{
         // console.dir(err.data.message)
@@ -52,6 +55,8 @@ const app = createApp({
       axios.put(`${api_url}/api/${api_path}/admin/product/${id}`,{"data":this.tempProduct})
       .then((res)=>{
         // console.log(res.data)
+        productModal.hide();
+        alert(res.data.message);
         this.getAdminProducts()
       })
       .catch((err)=>{
@@ -109,6 +114,15 @@ const app = createApp({
   //   }
   // },
   mounted(){
+    // modal
+    productModal = new bootstrap.Modal(document.getElementById('productModal'), {
+      keyboard: false
+    });
+
+    // token
+    const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
+    axios.defaults.headers.common.Authorization = token;
+    
     this.checkAdmin()
   }
 })
