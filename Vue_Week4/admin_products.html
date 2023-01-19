@@ -70,7 +70,7 @@
       <!-- Modal -->
       <div id="productModal" ref="productModal" class="modal fade" tabindex="-1" aria-labelledby="productModalLabel"
            aria-hidden="true">
-        <product-modal :temp-product="tempProduct" :edit-product="editProduct" :add-product="addProduct" @upload-image="uploadImage"></product-modal>
+        <product-modal :temp-product="tempProduct" :edit-product="editProduct" :add-product="addProduct" @upload-image="uploadImage" @upload-images="uploadImages"></product-modal>
       </div>
 
       <div id="delProductModal" ref="delProductModal" class="modal fade" tabindex="-1"
@@ -107,8 +107,12 @@
                       <h5>次要圖片</h5>
                         <div v-for="(image, index) in tempProduct.imagesUrl" :key="index">
                           <div class="mb-3">
-                              <label for="imageUrl" class="form-label">輸入次要圖片網址</label>
-                              <input type="text" class="form-control" placeholder="請輸入圖片連結" v-model="tempProduct.imagesUrl[index]" id=`imageUrl-${index}`>
+                              <!-- <label for="imageUrl" class="form-label">輸入次要圖片網址</label>
+                              <input type="text" class="form-control" placeholder="請輸入圖片連結" v-model="tempProduct.imagesUrl[index]" id=`imageUrl-${index}`> -->
+                              <form enctype="multipart/form-data"  method="post">
+                                <input type="file" name="file-to-upload" id="imagesUrl"  placeholder="請選擇圖片" @change="$emit('upload-images', index)" class="form-control">
+                                <!-- <input type="submit" value="上傳"> -->
+                              </form>  
                           </div>
                           <img class="img-fluid" :src="image" alt="">
                         </div>

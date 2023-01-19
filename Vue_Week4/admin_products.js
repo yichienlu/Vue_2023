@@ -81,6 +81,21 @@ const app = createApp({
       .catch((err)=>{
         console.log(err.response)
       })
+    },
+    uploadImages(index){
+      const imagesUrl = document.querySelectorAll('#imagesUrl')
+      const file = imagesUrl[index].files[0]
+      const formData = new FormData();
+      formData.append('file-to-upload', file)
+
+      axios.post(`${api_url}/api/${api_path}/admin/upload`, formData)
+      .then((res)=>{
+        console.log(res)
+        this.tempProduct.imagesUrl[index] = res.data.imageUrl
+      })
+      .catch((err)=>{
+        console.log(err.response)
+      })
     }
   },
   components:{
