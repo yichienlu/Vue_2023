@@ -44,7 +44,8 @@ const app = createApp({
         this.getAdminProducts()
       })
       .catch((err)=>{
-        console.dir(err)
+        // console.dir(err.data.message)
+        alert(err.data.message)
       })
     },
     editProduct(id){
@@ -54,7 +55,8 @@ const app = createApp({
         this.getAdminProducts()
       })
       .catch((err)=>{
-        console.dir(err)
+        // console.dir(err)
+        alert(err.data.message)
       })
     },
     deleteProduct(id){
@@ -75,7 +77,7 @@ const app = createApp({
 
       axios.post(`${api_url}/api/${api_path}/admin/upload`, formData)
       .then((res)=>{
-        console.log(res)
+        // console.log(res)
         this.tempProduct.imageUrl = res.data.imageUrl
       })
       .catch((err)=>{
@@ -90,7 +92,7 @@ const app = createApp({
 
       axios.post(`${api_url}/api/${api_path}/admin/upload`, formData)
       .then((res)=>{
-        console.log(res)
+        // console.log(res)
         this.tempProduct.imagesUrl[index] = res.data.imageUrl
       })
       .catch((err)=>{
