@@ -12,17 +12,17 @@ const app = createApp({
   methods:{
     getProducts(){
       axios.get(`${apiUrl}/api/${apiPath}/products/all`)
-        .then((res)=>{
-          console.log(res.data)
-        })
-        .catch((err)=>{
-          console.dir(err)
-        })
+      .then((res)=>{
+        console.log(res.data)
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
     }
   },
   mounted(){
     this.getProducts()
   }
-});
+})
 
-app.mount('#app')
+app.mount("#app")
