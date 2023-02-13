@@ -1,7 +1,18 @@
-import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.esm-browser.min.js'
+// import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.esm-browser.min.js'
 
-const apiUrl = 'https://vue3-course-api.hexschool.io/v2';
-const apiPath = 'yclu'
+// const { defineRule, Form, Field, ErrorMessage, configure } = VeeValidate;
+// const { required, email, min, max } = VeeValidateRules;
+// const { localize, loadLocaleFromURL } = VeeValidateI18n;
+// defineRule('required', required);
+// defineRule('email', email);
+// defineRule('min', min);
+// defineRule('max', max);
+
+// loadLocaleFromURL('https://unpkg.com/@vee-validate/i18n@4.1.0/dist/locale/zh_TW.json');
+
+// configure({
+//   generateMessage: localize('zh_TW'),
+// });
 
 Object.keys(VeeValidateRules).forEach(rule => {
   if (rule !== 'default') {
@@ -17,7 +28,8 @@ VeeValidate.configure({
   // validateOnInput: true, // 調整為：輸入文字時，就立即進行驗證
 });
 
-
+const apiUrl = 'https://vue3-course-api.hexschool.io/v2';
+const apiPath = 'yclu'
 
 const productModal = {
   props:['id', 'addToCart', 'openModal'],
@@ -55,7 +67,7 @@ const productModal = {
   }
 }
 
-const app = createApp({
+const app = Vue.createApp({
   data(){
     return {
       products:[],
@@ -64,6 +76,11 @@ const app = createApp({
       loadingItem: ''
     }
   },
+  // components: {
+  //   VForm: Form,
+  //   VField: Field,
+  //   ErrorMessage: ErrorMessage,
+  // },
   methods:{
     getProducts(){
       axios.get(`${apiUrl}/api/${apiPath}/products/all`)
