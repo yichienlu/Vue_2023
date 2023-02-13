@@ -1,10 +1,26 @@
 import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.esm-browser.min.js'
 
 const apiUrl = 'https://vue3-course-api.hexschool.io/v2';
-const apiPath = 'ycl'
+const apiPath = 'yclu'
+
+Object.keys(VeeValidateRules).forEach(rule => {
+  if (rule !== 'default') {
+    VeeValidate.defineRule(rule, VeeValidateRules[rule]);
+  }
+});
+// 讀取外部的資源
+VeeValidateI18n.loadLocaleFromURL('./zh_TW.json');
+
+// Activate the locale
+VeeValidate.configure({
+  generateMessage: VeeValidateI18n.localize('zh_TW'),
+  // validateOnInput: true, // 調整為：輸入文字時，就立即進行驗證
+});
+
+
 
 const productModal = {
-  props:['id', 'addToCart'],
+  props:['id', 'addToCart', 'openModal'],
   data(){
     return {
       modal:{},
@@ -15,13 +31,14 @@ const productModal = {
   template: '#userProductModal',
   watch:{
     id(){
-      console.log(this.id)
-      axios.get(`${apiUrl}/api/${apiPath}/product/${this.id}`)
-      .then((res)=>{
-        console.log(res.data.product)
-        this.tempProduct = res.data.product;
-        this.modal.show();
-      })
+      if(this.id){
+        axios.get(`${apiUrl}/api/${apiPath}/product/${this.id}`)
+        .then((res)=>{
+          console.log(res.data.product)
+          this.tempProduct = res.data.product;
+          this.modal.show();
+        })
+      }
     }
   },
   methods:{
@@ -31,10 +48,12 @@ const productModal = {
   },
   mounted(){
     this.modal = new bootstrap.Modal(this.$refs.modal);
+    // 監聽modal關閉事件
+    this.$refs.modal.addEventListener('hidden.bs.modal', event => {
+      this.openModal('')
+    })
   }
 }
-
-
 
 const app = createApp({
   data(){
@@ -118,5 +137,9 @@ const app = createApp({
     this.getCarts()
   }
 })
+
+app.component('VForm', VeeValidate.Form);
+app.component('VField', VeeValidate.Field);
+app.component('ErrorMessage', VeeValidate.ErrorMessage);
 
 app.mount("#app")

@@ -11,6 +11,7 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css'
           integrity='sha512-q3eWabyZPc1XTCmF+8/LuE1ozpg5xxn7iO89yfSOd5/oKvyqLngoNGsx8jq92Y8eXJ/IRxQbEC+FGSYxtk2oiw=='
           crossorigin='anonymous' />
+
   </head>
 
   <body>
@@ -18,7 +19,7 @@
       <div class="container">
         <div class="mt-4">
           <!-- 產品Modal -->
-          <product-modal :id="productId" :add-to-cart="addToCart" ref="productModal"></product-modal>
+          <product-modal :id="productId" :add-to-cart="addToCart" :open-modal = "openModal" ref="productModal"></product-modal>
           <!-- 產品Modal -->
          
           <table class="table align-middle">
@@ -218,6 +219,9 @@
     <!-- <script src="https://unpkg.com/vee-validate@next"></script>
     <script src="https://unpkg.com/@vee-validate/i18n@4.1.0"></script>
     <script src="https://unpkg.com/@vee-validate/rules"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/4.5.8/vee-validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@vee-validate/rules@4.5.8/dist/vee-validate-rules.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@vee-validate/i18n@4.5.8/dist/vee-validate-i18n.min.js"></script>
     <script src="./cart.js" type="module"></script>
   </body>
 
