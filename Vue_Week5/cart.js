@@ -1,14 +1,15 @@
 import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.esm-browser.min.js'
 
 const apiUrl = 'https://vue3-course-api.hexschool.io/v2';
-const apiPath = 'yclu'
+const apiPath = 'ycl'
 
 const productModal = {
   props:['id', 'addToCart'],
   data(){
     return {
       modal:{},
-      tempProduct:{}
+      tempProduct:{},
+      qty: 1
     }
   },
   template: '#userProductModal',
@@ -30,7 +31,6 @@ const productModal = {
   },
   mounted(){
     this.modal = new bootstrap.Modal(this.$refs.modal);
-    // this.modal.show()
   }
 }
 
@@ -40,7 +40,9 @@ const app = createApp({
   data(){
     return {
       products:[],
-      productId:''
+      productId:'',
+      cart:{},
+      loadingItem: ''
     }
   },
   methods:{
@@ -54,9 +56,18 @@ const app = createApp({
         console.log(err)
       })
     },
+    getCarts(){
+      axios.get(`${apiUrl}/api/${apiPath}/cart`)
+      .then((res)=>{
+        console.log('購物車' , res.data);
+        this.cart = res.data.data;
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    },
     openModal(id){
       this.productId = id
-      console.log(this.productId)
     },
     addToCart(product_id, qty=1){
       const data = {
@@ -67,6 +78,35 @@ const app = createApp({
       .then((res)=>{
         console.log('加入購物車', res.data);
         this.$refs.productModal.hide();
+        this.getCarts();
+      })
+    },
+    updateCartItem(item){
+      const data={
+        product_id: item.product.id,
+        qty: item.qty,
+      };
+      this.loadingItem = item.id
+      axios.put(`${apiUrl}/api/${apiPath}/cart/${item.id}`, {data})  // 購物車 ID
+      .then((res)=>{
+        this.cart = res.data.data;
+        this.getCarts();
+        this.loadingItem = ''
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    },
+    deleteCartItem(item){
+      this.loadingItem = item.id
+      axios.delete(`${apiUrl}/api/${apiPath}/cart/${item.id}`)  // 購物車 ID
+      .then((res)=>{
+        console.log('更新購物車' , res.data);
+        this.getCarts();
+        this.loadingItem = ''
+      })
+      .catch((err)=>{
+        console.log(err)
       })
     }
   },
@@ -74,7 +114,8 @@ const app = createApp({
     productModal
   },
   mounted(){
-    this.getProducts()
+    this.getProducts();
+    this.getCarts()
   }
 })
 
