@@ -97,6 +97,7 @@ const app = Vue.createApp({
       .then((res)=>{
         // console.log('購物車' , res.data);
         this.cart = res.data.data;
+        console.log(this.cart.total)
       })
       .catch((err)=>{
         console.log(err)
@@ -112,7 +113,7 @@ const app = Vue.createApp({
       };
       axios.post(`${apiUrl}/api/${apiPath}/cart`,{data})
       .then((res)=>{
-        console.log('加入購物車', res.data);
+        // console.log('加入購物車', res.data);
         this.$refs.productModal.hide();
         this.getCarts();
       })
@@ -137,7 +138,17 @@ const app = Vue.createApp({
       this.loadingItem = item.id
       axios.delete(`${apiUrl}/api/${apiPath}/cart/${item.id}`)  // 購物車 ID
       .then((res)=>{
-        console.log('更新購物車' , res.data);
+        // console.log('更新購物車' , res.data);
+        this.getCarts();
+        this.loadingItem = ''
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    },
+    clearCart(){
+      axios.delete(`${apiUrl}/api/${apiPath}/carts`)  
+      .then((res)=>{
         this.getCarts();
         this.loadingItem = ''
       })
