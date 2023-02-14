@@ -11,11 +11,15 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css'
           integrity='sha512-q3eWabyZPc1XTCmF+8/LuE1ozpg5xxn7iO89yfSOd5/oKvyqLngoNGsx8jq92Y8eXJ/IRxQbEC+FGSYxtk2oiw=='
           crossorigin='anonymous' />
+    
+        <link href="https://cdn.jsdelivr.net/npm/vue-loading-overlay@6.0.2/dist/css/index.css" rel="stylesheet">
 
   </head>
 
   <body>
     <div id="app">
+      <loading></loading>
+      <!-- <loading :active="isLoading"></loading> -->
       <div class="container">
         <div class="mt-4">
           <!-- 產品Modal -->
@@ -49,11 +53,11 @@
                 <td>
                   <div class="btn-group btn-group-sm">
                     <button type="button" class="btn btn-outline-secondary" @click="openModal(product.id)">
-                      <i class="fas fa-spinner fa-pulse"></i>
+                      <!-- <i class="fas fa-spinner fa-pulse"></i> -->
                       查看更多
                     </button>
                     <button type="button" class="btn btn-outline-danger" @click="addToCart(product.id)">
-                      <i class="fas fa-spinner fa-pulse"></i>
+                      <!-- <i class="fas fa-spinner fa-pulse"></i> -->
                       加到購物車
                     </button>
                   </div>
@@ -79,7 +83,7 @@
                 <tr v-for="item in cart.carts" :key="item.id">
                   <td>
                     <button type="button" class="btn btn-outline-danger btn-sm" @click="deleteCartItem(item)" :disabled="item.id===loadingItem">
-                      <i class="fas fa-spinner fa-pulse"></i>
+                      <!-- <i class="fas fa-spinner fa-pulse"></i> -->
                       x
                     </button>
                   </td>
@@ -124,7 +128,7 @@
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
               <v-field id="email" name="email" type="email" class="form-control"
-                       :class="{ 'is-invalid': errors['email'] }" placeholder="請輸入 Email" 
+                       :class="{ 'is-invalid': errors['email'] }" placeholder="請輸入 Email" rules="required|email"
                       ></v-field>
               <error-message name="email" class="invalid-feedback"></error-message>
             </div>
@@ -138,8 +142,8 @@
 
             <div class="mb-3">
               <label for="tel" class="form-label">收件人電話</label>
-              <v-field id="tel" name="電話" type="text" class="form-control" :class="{ 'is-invalid': errors['電話'] }"
-                       placeholder="請輸入電話" ></v-field>
+              <v-field id="tel" name="電話" type="tel" class="form-control" :class="{ 'is-invalid': errors['電話'] }"
+                       placeholder="請輸入電話"  rules="required|min:8"></v-field>
               <error-message name="電話" class="invalid-feedback"></error-message>
             </div>
 
@@ -217,7 +221,8 @@
             crossorigin="anonymous"></script>
 
     <script src="https://unpkg.com/vue@next"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/vue-loading-overlay@6.0.2"></script>
+        
     <script src="https://unpkg.com/vee-validate@next"></script>
     <script src="https://unpkg.com/@vee-validate/i18n@4.1.0"></script>
     <script src="https://unpkg.com/@vee-validate/rules"></script>

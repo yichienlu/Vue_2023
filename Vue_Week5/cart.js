@@ -25,7 +25,7 @@ VeeValidateI18n.loadLocaleFromURL('./zh_TW.json');
 // Activate the locale
 VeeValidate.configure({
   generateMessage: VeeValidateI18n.localize('zh_TW'),
-  // validateOnInput: true, // 調整為：輸入文字時，就立即進行驗證
+  validateOnInput: true, // 調整為：輸入文字時，就立即進行驗證
 });
 
 const apiUrl = 'https://vue3-course-api.hexschool.io/v2';
@@ -46,7 +46,7 @@ const productModal = {
       if(this.id){
         axios.get(`${apiUrl}/api/${apiPath}/product/${this.id}`)
         .then((res)=>{
-          console.log(res.data.product)
+          // console.log(res.data.product)
           this.tempProduct = res.data.product;
           this.modal.show();
         })
@@ -73,7 +73,7 @@ const app = Vue.createApp({
       products:[],
       productId:'',
       cart:{},
-      loadingItem: ''
+      loadingItem: '',
     }
   },
   // components: {
@@ -85,7 +85,7 @@ const app = Vue.createApp({
     getProducts(){
       axios.get(`${apiUrl}/api/${apiPath}/products/all`)
       .then((res)=>{
-        console.log('產品列表：' , res.data.products[0]);
+        // console.log('產品列表：' , res.data.products[0]);
         this.products = res.data.products;
       })
       .catch((err)=>{
@@ -95,7 +95,7 @@ const app = Vue.createApp({
     getCarts(){
       axios.get(`${apiUrl}/api/${apiPath}/cart`)
       .then((res)=>{
-        console.log('購物車' , res.data);
+        // console.log('購物車' , res.data);
         this.cart = res.data.data;
       })
       .catch((err)=>{
@@ -151,12 +151,21 @@ const app = Vue.createApp({
   },
   mounted(){
     this.getProducts();
-    this.getCarts()
+    this.getCarts();
+
+    let loader = this.$loading.show()
+      setTimeout(() => {
+        loader.hide()
+      }, 1500)
+
   }
 })
 
 app.component('VForm', VeeValidate.Form);
 app.component('VField', VeeValidate.Field);
 app.component('ErrorMessage', VeeValidate.ErrorMessage);
+
+app.use(VueLoading.LoadingPlugin)
+// app.component(VueLoading, Component)
 
 app.mount("#app")
