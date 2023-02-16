@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>產品列表頁面</h1>
+    <h2>產品列表頁面</h2>
     <table class="table">
       <thead>
         <th>品項</th>
