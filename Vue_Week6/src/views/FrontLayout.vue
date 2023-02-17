@@ -22,7 +22,6 @@
             </li>
           </ul>
         </div>
-        <router-link to="/cart" class="nav-link ms-auto">購物車<span class="badge rounded-pill text-bg-warning">5</span></router-link>
         <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
